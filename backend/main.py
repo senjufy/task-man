@@ -29,7 +29,7 @@ async def get_todo():
     return response
 
 
-@app.get("/api/todo{title}", response_model=Todo)
+@app.get("/api/todo/{title}", response_model=Todo)
 async def get_todo_by_id(title):
     response = await fetch_one_todo(title)
     if response:
@@ -45,7 +45,7 @@ async def post_todo(todo: Todo):
     raise HTTPException(400, "Bad Request")
 
 
-@app.put("/api/todo{title}", response_model=Todo)
+@app.put("/api/todo/{title}", response_model=Todo)
 async def put_todo(title: str, desc: str):
     response = await update_todo(title, desc)
     if response:
@@ -53,7 +53,7 @@ async def put_todo(title: str, desc: str):
     raise HTTPException(404, "No Todo Item Fount")
 
 
-@app.delete("/api/todo{title}")
+@app.delete("/api/todo/{title}")
 async def delete_todo(title):
     response = await remove_todo(title)
     if response:
