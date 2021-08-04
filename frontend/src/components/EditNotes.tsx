@@ -5,34 +5,32 @@ import {Link} from "react-router-dom"
 import {
     RouteComponentProps
 } from "react-router-dom";
+type TParams = { title?: string, desc?: string}
 
-function AddNotes() {
-    const [title, setTitle] = useState("")
-    const [description, setDescription] = useState("")
+function EditNotes({match} : RouteComponentProps<TParams>) {
+    let editTitle = match.params.title
+    let editDesc = match.params.desc
+    const [description, setDescription] = useState(editDesc)
 
     const getDesc = (e : any) => {
         setDescription(e.target.value)
     }
 
-    const getTitle = (e : any) => {
-        setTitle(e.target.value)
-    }
-
     const addTask = () => {
-        axios.post('http://localhost:8000/api/todo/', { 'title': title, 'description': description })
+        axios.put(`http://localhost:8000/api/todo/${editTitle}?desc=${description}`)
         .then(res => console.log(res))
     };
 
     return (
         <Main>
             <Container>
-                <h1>Add Task</h1>
+                <h1>Edit Task</h1>
                 <Items>
                     <Title>
-                        <InputTitle placeholder="Title" onChange={getTitle}/>
+                        <InputTitle value={editTitle} placeholder="Title"/>
                     </Title>
                     <TextArea>
-                        <TextAreaInput placeholder="Add Description" onChange={getDesc}/>
+                        <TextAreaInput value={description} placeholder="Add Description" onChange={getDesc}/>
                     </TextArea>
                 </Items>
                 <Link to="/">
@@ -45,7 +43,7 @@ function AddNotes() {
     )
 }
 
-export default AddNotes
+export default EditNotes
 
 const Main = styled.div`
     background-color: #99989889;
@@ -72,7 +70,7 @@ const Items = styled.div`
 `
 
 const Title = styled.div`
-    background-color: #3498db;
+    background-color: #ec9a4e;
     padding: 10px;
 `
 
@@ -82,7 +80,7 @@ const InputTitle = styled.input`
     text-align: center;
     font-family: 'Assistant', sans-serif;
     width: 600px;
-    background-color: #2980b9;
+    background-color: #3498db;
     color: white;
     padding-left: 10px;
     padding-right: 10px;
@@ -119,7 +117,7 @@ const Submit = styled.button`
     font-weight: bold;
     height: 40px;
     width: 105px;
-    background: #2980b9;
+    background: #ec9a4e;
     color: white;
     float: right;
     font-size: 1.5em;

@@ -23,7 +23,7 @@ function Card({title, desc} : Props) {
             <Delete>
                 <DeleteIcon onClick={() => deleteTask(title)}/>
             </Delete>
-            <Link to={"/edit/" + title}>
+            <Link to={"/edit/" + title + "/" + desc}>
                 <Edit>
                     <EditIcon/>
                 </Edit>
