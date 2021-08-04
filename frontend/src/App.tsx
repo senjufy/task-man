@@ -13,6 +13,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home}/>
           <Route exact path="/add" component={AddNotes}/>
+          <Route exact path="/edit/:param" component={AddNotes}/>
         </Switch>
       </div>
     </Router>

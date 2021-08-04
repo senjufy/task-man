@@ -1,22 +1,51 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from "styled-components"
+import axios from "axios"
+import {Link} from "react-router-dom"
+import {
+    RouteComponentProps
+} from "react-router-dom";
+type TParams = { param?: string }
 
-function AddNotes() {
+function AddNotes({match} : RouteComponentProps<TParams>) {
+    let param = match.params.param
+    const [title, setTitle] = useState("")
+    const [description, setDescription] = useState("")
+
+    const getDesc = (e : any) => {
+        setDescription(e.target.value)
+    }
+
+    const getTitle = (e : any) => {
+        setTitle(e.target.value)
+    }
+
+    const addTask = () => {
+        param ?
+            axios.put(`http://localhost:8000/api/todo/${param}?desc=${description}`)
+            .then(res => console.log(res))
+        :
+            axios.post('http://localhost:8000/api/todo/', { 'title': title, 'description': description })
+            .then(res => console.log(res))
+    };
+
     return (
         <Main>
             <Container>
-                <h1>Add A Task</h1>
+                <h1>{param ? "Edit Task" : "Add Task"}</h1>
                 <Items>
                     <Title>
-                        <InputTitle placeholder="Title"/>
+                        <InputTitle value={param} placeholder="Title" onChange={getTitle}/>
                     </Title>
                     <TextArea>
-                        <TextAreaInput placeholder="Add Description"/>
+                        <TextAreaInput placeholder="Add Description" onChange={getDesc}/>
                     </TextArea>
                 </Items>
-                <Submit>
-                    Submit
-                </Submit>
+                <Link to="/">
+                    <Submit onClick={addTask}>
+                        Submit
+                    </Submit>
+                </Link>
             </Container>
         </Main>
     )

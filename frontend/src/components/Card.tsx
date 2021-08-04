@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import axios from "axios"
+import {Link} from "react-router-dom"
 
 interface Props {
     title: any | string;
@@ -22,9 +23,11 @@ function Card({title, desc} : Props) {
             <Delete>
                 <DeleteIcon onClick={() => deleteTask(title)}/>
             </Delete>
-            <Edit>
-                <EditIcon/>
-            </Edit>
+            <Link to={"/edit/" + title}>
+                <Edit>
+                    <EditIcon/>
+                </Edit>
+            </Link>
         </Container>
     )
 }
